@@ -31,6 +31,9 @@ func main() {
 			id := r.URL.Query().Get("id")
 			result := getPurchase(id)
 			json.NewEncoder(w).Encode(result)
+		} else if r.Method == "POST" {
+			result := createPurchase()
+			json.NewEncoder(w).Encode(result)
 		}
 	})
 
@@ -49,5 +52,34 @@ func getPaymentMethods() chip.PaymentMethod {
 
 func getPurchase(id string) chip.Purchase {
 	result, _ := apiClient.Purchases().GetPurchase(id)
+	return result
+}
+
+func createPurchase() chip.Purchase {
+	client := chip.Client{
+		Email:    "john.doe@exampl.com",
+		Fullname: "John Doe",
+	}
+
+	purchase := chip.PurchaseDetail{
+		Products: []chip.Product{
+			{
+				Name:     "abcd",
+				Quantity: 1,
+				Price:    100,
+			},
+		},
+		Notes: "notes",
+	}
+
+	purchaseOption := chip.PurchaseOption{
+		Client:          client,
+		Purchase:        purchase,
+		SuccessRedirect: "http://example.com/redirect?status=success",
+		FailureRedirect: "http://example.com/redirect?status=fail",
+		CancelRedirect:  "http://example.com/redirect?status=cancel",
+		SuccessCallback: "http://example.com/callback?status=success&tnxId=%d",
+	}
+	result, _ := apiClient.Purchases().CreatePurchase(purchaseOption)
 	return result
 }
