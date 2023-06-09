@@ -9,7 +9,7 @@ import (
 type APIClient interface {
 	PaymentMethods() paymentMethodsInterface
 	Purchases() purchasesInterface
-	PublicKeys() purchasesInterface
+	PublicKeys() publicKeysInterface
 	SetHTTPClient(http.HttpRequest)
 }
 
@@ -19,7 +19,7 @@ type apiClient struct {
 	basePath       string
 	paymentMethods paymentMethodsInterface
 	purchases      purchasesInterface
-	publicKeys     publicKeyInterface
+	publicKeys     publicKeysInterface
 }
 
 func NewAPIClient(accessToken, brandID, basePath string) APIClient {
@@ -49,8 +49,8 @@ func (c apiClient) Purchases() purchasesInterface {
 	return c.purchases
 }
 
-func (c apiClient) PublicKeys() purchasesInterface {
-	return c.purchases
+func (c apiClient) PublicKeys() publicKeysInterface {
+	return c.publicKeys
 }
 
 func (c apiClient) SetHTTPClient(newClient http.HttpRequest) {

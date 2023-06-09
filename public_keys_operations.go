@@ -7,7 +7,7 @@ import (
 	"github.com/CHIPAsia/chip-go-sdk/internal/http"
 )
 
-type publicKeyInterface interface {
+type publicKeysInterface interface {
 	setHttpClient(http.HttpRequest)
 	// GetPublicKey returns public key for the account
 	GetPublicKey() (string, error)
@@ -20,7 +20,7 @@ type publicKeys struct {
 	http        http.HttpRequest
 }
 
-func newPublicKey(accessToken, brandID, basePath string) publicKeyInterface {
+func newPublicKey(accessToken, brandID, basePath string) publicKeysInterface {
 	return &publicKeys{
 		accessToken: accessToken,
 		brandID:     brandID,
