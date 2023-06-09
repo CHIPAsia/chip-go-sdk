@@ -9,6 +9,7 @@ import (
 type APIClient interface {
 	PaymentMethods() paymentMethodsInterface
 	Purchases() purchasesInterface
+	PublicKeys() purchasesInterface
 	SetHTTPClient(http.HttpRequest)
 }
 
